@@ -9,7 +9,7 @@
 ## 📂 Projekt-Location
 `/home/crankk/projects/agencysync/`
 
-## ✅ Aktueller Status: MVP FERTIG + VISUELLES REDESIGN
+## ✅ Aktueller Status: MVP + LANDING PAGE + GITHUB
 
 ### Backend (Port 5000)
 - Express.js Server mit SQLite Datenbank
@@ -20,11 +20,13 @@
   - `/api/proposals` - Proposal Builder
   - `/api/tasks` - Task Management
   - `/api/time` - Time Tracking
+  - `/api/waitlist` - Waitlist Signup
 
 ### Frontend (Port 3001)
 - React + TailwindCSS + Inter Font
 - Premium UI mit Violet/Indigo Gradient Design
 - Features implementiert:
+  - **Landing Page** (Warteliste, Pricing, Features)
   - Login/Register (modernes Design mit Glassmorphism)
   - Dashboard mit Stats + Quick Actions
   - Clients (Grid-View mit Search + Animationen)
@@ -62,10 +64,15 @@ cd ~/projects/agencysync && npm run dev
 - Port 3001/tcp: ALLOW Anywhere (Frontend)
 - Port 5000/tcp: ALLOW Anywhere (Backend API)
 
+## 🐙 GitHub Repository
+- **URL:** https://github.com/Vitja1988/agencysync
+- **Public:** Ja
+- **Status:** Master branch pushed
+
 ## 📋 Nächste Schritte (TODO)
 1. ✅ MVP fertiggestellt
 2. ✅ Visuelles Redesign complete
-3. 🔄 Landing Page für Warteliste erstellen
+3. ✅ Landing Page erstellt & gepusht
 4. 🔄 Stripe-Integration für Zahlungen
 5. 🔄 Deployment auf VPS vorbereiten
 6. 🔄 Domain kaufen + DNS einrichten
