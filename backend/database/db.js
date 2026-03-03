@@ -74,6 +74,13 @@ db.serialize(() => {
     FOREIGN KEY (client_id) REFERENCES clients(id),
     FOREIGN KEY (task_id) REFERENCES tasks(id)
   )`);
+
+  // Waitlist table
+  db.run(`CREATE TABLE IF NOT EXISTS waitlist (
+    id TEXT PRIMARY KEY,
+    email TEXT UNIQUE NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  )`);
 });
 
 module.exports = db;

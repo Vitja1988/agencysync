@@ -9,7 +9,7 @@
 ## 📂 Projekt-Location
 `/home/crankk/projects/agencysync/`
 
-## ✅ Aktueller Status: MVP FERTIG
+## ✅ Aktueller Status: MVP FERTIG + VISUELLES REDESIGN
 
 ### Backend (Port 5000)
 - Express.js Server mit SQLite Datenbank
@@ -22,14 +22,23 @@
   - `/api/time` - Time Tracking
 
 ### Frontend (Port 3001)
-- React + TailwindCSS
+- React + TailwindCSS + Inter Font
+- Premium UI mit Violet/Indigo Gradient Design
 - Features implementiert:
-  - Login/Register
-  - Dashboard mit Stats
-  - Clients (CRUD + Modal)
-  - Proposals (Status: Draft/Sent/Accepted/Rejected)
+  - Login/Register (modernes Design mit Glassmorphism)
+  - Dashboard mit Stats + Quick Actions
+  - Clients (Grid-View mit Search + Animationen)
+  - Proposals (Status-Tracking mit Icons)
   - Tasks (Kanban Board mit Drag & Drop)
   - Time Tracking (Live Timer + manuelle Einträge)
+
+### Design-Features
+- Gradient Buttons (Violet → Indigo)
+- Hover-Animationen (Lift + Shadow)
+- Fade-In/Slide-In Animationen
+- Glassmorphism Effects
+- Rounded-2XL Cards
+- Custom Scrollbar
 
 ## 🚀 Start-Befehle
 
@@ -45,22 +54,28 @@ cd ~/projects/agencysync && npm run dev
 ```
 
 ## 🌐 Zugriff
-- Frontend: http://localhost:3001
-- Backend API: http://localhost:5000
-- Health Check: http://localhost:5000/api/health
+- Frontend: http://192.168.178.93:3001
+- Backend API: http://192.168.178.93:5000
+- Health Check: http://192.168.178.93:5000/api/health
+
+## 🔥 Firewall-Status
+- Port 3001/tcp: ALLOW Anywhere (Frontend)
+- Port 5000/tcp: ALLOW Anywhere (Backend API)
 
 ## 📋 Nächste Schritte (TODO)
 1. ✅ MVP fertiggestellt
-2. 🔄 Landing Page für Warteliste erstellen
-3. 🔄 Stripe-Integration für Zahlungen
-4. 🔄 Deployment auf VPS vorbereiten
-5. 🔄 Domain kaufen + DNS einrichten
-6. 🔄 SSL-Zertifikat (Let's Encrypt)
+2. ✅ Visuelles Redesign complete
+3. 🔄 Landing Page für Warteliste erstellen
+4. 🔄 Stripe-Integration für Zahlungen
+5. 🔄 Deployment auf VPS vorbereiten
+6. 🔄 Domain kaufen + DNS einrichten
+7. 🔄 SSL-Zertifikat (Let's Encrypt)
 
 ## 💡 Technische Notizen
 - SQLite Datenbank: `~/projects/agencysync/backend/database/agencysync.db`
 - Environment Variables in `.env` Datei
 - Frontend Proxy auf Backend Port 5000 eingestellt
+- Git Repo initialisiert mit MVP-Commit
 
 ## 👤 Operator
 Vitja (1048871280) - Beneficial Owner

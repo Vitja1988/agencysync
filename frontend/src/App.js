@@ -9,6 +9,7 @@ import Proposals from './components/Proposals/Proposals';
 import Tasks from './components/Tasks/Tasks';
 import TimeTracking from './components/TimeTracking/TimeTracking';
 import Layout from './components/Layout/Layout';
+import LandingPage from './components/LandingPage/LandingPage';
 
 // Set auth token for all requests
 const setAuthToken = (token) => {
@@ -64,21 +65,54 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={!user ? <Login onLogin={login} /> : <Navigate to="/" />} />
-        <Route path="/register" element={!user ? <Register onLogin={login} /> : <Navigate to="/" />} />
-        <Route path="/*" element={
+        <Route path="/" element={
+          user ? <Navigate to="/dashboard" /> : <LandingPage onLoginClick={() => window.location.href = '/login'} />
+        } />
+        <Route path="/login" element={!user ? <Login onLogin={login} /> : <Navigate to="/dashboard" />} />
+        <Route path="/register" element={!user ? <Register onLogin={login} /> : <Navigate to="/dashboard" />} />
+        <Route path="/dashboard" element={
           user ? (
             <Layout user={user} onLogout={logout}>
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/clients" element={<Clients />} />
-                <Route path="/proposals" element={<Proposals />} />
-                <Route path="/tasks" element={<Tasks />} />
-                <Route path="/time" element={<TimeTracking />} />
-              </Routes>
+              <Dashboard />
             </Layout>
           ) : (
-            <Navigate to="/login" />
+            <Navigate to="/" />
+          )
+        } />
+        <Route path="/clients" element={
+          user ? (
+            <Layout user={user} onLogout={logout}>
+              <Clients />
+            </Layout>
+          ) : (
+            <Navigate to="/" />
+          )
+        } />
+        <Route path="/proposals" element={
+          user ? (
+            <Layout user={user} onLogout={logout}>
+              <Proposals />
+            </Layout>
+          ) : (
+            <Navigate to="/" />
+          )
+        } />
+        <Route path="/tasks" element={
+          user ? (
+            <Layout user={user} onLogout={logout}>
+              <Tasks />
+            </Layout>
+          ) : (
+            <Navigate to="/" />
+          )
+        } />
+        <Route path="/time" element={
+          user ? (
+            <Layout user={user} onLogout={logout}>
+              <TimeTracking />
+            </Layout>
+          ) : (
+            <Navigate to="/" />
           )
         } />
       </Routes>

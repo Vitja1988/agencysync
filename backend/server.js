@@ -21,6 +21,7 @@ app.use('/api/clients', require('./routes/clients'));
 app.use('/api/proposals', require('./routes/proposals'));
 app.use('/api/tasks', require('./routes/tasks'));
 app.use('/api/time', require('./routes/time'));
+app.use('/api/waitlist', require('./routes/waitlist'));
 
 // Health check
 app.get('/api/health', (req, res) => {
