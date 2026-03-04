@@ -13,6 +13,9 @@ db.serialize(() => {
     password TEXT NOT NULL,
     name TEXT NOT NULL,
     company_name TEXT,
+    date_format TEXT DEFAULT 'dd.MM.yyyy',
+    time_format TEXT DEFAULT '24h',
+    currency TEXT DEFAULT 'EUR',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   )`);
 
@@ -24,6 +27,7 @@ db.serialize(() => {
     email TEXT,
     phone TEXT,
     company TEXT,
+    color TEXT DEFAULT 'violet',
     status TEXT DEFAULT 'active',
     notes TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -69,6 +73,8 @@ db.serialize(() => {
     description TEXT,
     hours REAL NOT NULL,
     date DATE NOT NULL,
+    start_time DATETIME,
+    end_time DATETIME,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (client_id) REFERENCES clients(id),
@@ -81,6 +87,46 @@ db.serialize(() => {
     email TEXT UNIQUE NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   )`);
+
+  // Integrations table
+  db.run(`CREATE TABLE IF NOT EXISTS integrations (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL,
+    provider TEXT NOT NULL,
+    api_key TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    UNIQUE(user_id, provider)
+  )`);
+
+  // Subscriptions table
+  db.run(`CREATE TABLE IF NOT EXISTS subscriptions (
+    id TEXT PRIMARY KEY,
+    user_id TEXT NOT NULL,
+    plan_type TEXT NOT NULL,
+    status TEXT DEFAULT 'active',
+    payment_provider TEXT,
+    customer_id TEXT,
+    subscription_id TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+  )`);
+
+  // Migration for color column if it doesn't exist
+  db.run("ALTER TABLE clients ADD COLUMN color TEXT DEFAULT 'violet'", (err) => {
+    // Ignore error if column already exists
+  });
+
+  // Migrations for time_entries
+  db.run("ALTER TABLE time_entries ADD COLUMN start_time DATETIME", (err) => { });
+  db.run("ALTER TABLE time_entries ADD COLUMN end_time DATETIME", (err) => { });
+
+  // Migrations for user preferences
+  db.run("ALTER TABLE users ADD COLUMN date_format TEXT DEFAULT 'dd.MM.yyyy'", (err) => { });
+  db.run("ALTER TABLE users ADD COLUMN time_format TEXT DEFAULT '24h'", (err) => { });
+  db.run("ALTER TABLE users ADD COLUMN currency TEXT DEFAULT 'EUR'", (err) => { });
+
 });
 
 module.exports = db;

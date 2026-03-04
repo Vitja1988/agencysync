@@ -10,6 +10,7 @@ import Tasks from './components/Tasks/Tasks';
 import TimeTracking from './components/TimeTracking/TimeTracking';
 import Layout from './components/Layout/Layout';
 import LandingPage from './components/LandingPage/LandingPage';
+import Integrations from './components/Integrations/Integrations';
 
 // Set auth token for all requests
 const setAuthToken = (token) => {
@@ -73,7 +74,7 @@ function App() {
         <Route path="/dashboard" element={
           user ? (
             <Layout user={user} onLogout={logout}>
-              <Dashboard />
+              <Dashboard user={user} />
             </Layout>
           ) : (
             <Navigate to="/" />
@@ -82,7 +83,7 @@ function App() {
         <Route path="/clients" element={
           user ? (
             <Layout user={user} onLogout={logout}>
-              <Clients />
+              <Clients user={user} />
             </Layout>
           ) : (
             <Navigate to="/" />
@@ -91,7 +92,7 @@ function App() {
         <Route path="/proposals" element={
           user ? (
             <Layout user={user} onLogout={logout}>
-              <Proposals />
+              <Proposals user={user} />
             </Layout>
           ) : (
             <Navigate to="/" />
@@ -100,7 +101,7 @@ function App() {
         <Route path="/tasks" element={
           user ? (
             <Layout user={user} onLogout={logout}>
-              <Tasks />
+              <Tasks user={user} />
             </Layout>
           ) : (
             <Navigate to="/" />
@@ -109,7 +110,16 @@ function App() {
         <Route path="/time" element={
           user ? (
             <Layout user={user} onLogout={logout}>
-              <TimeTracking />
+              <TimeTracking user={user} />
+            </Layout>
+          ) : (
+            <Navigate to="/" />
+          )
+        } />
+        <Route path="/integrations" element={
+          user ? (
+            <Layout user={user} onLogout={logout}>
+              <Integrations user={user} />
             </Layout>
           ) : (
             <Navigate to="/" />

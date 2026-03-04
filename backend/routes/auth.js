@@ -49,7 +49,7 @@ router.post('/register', [
       db.run(
         'INSERT INTO users (id, email, password, name, company_name) VALUES (?, ?, ?, ?, ?)',
         [userId, email, hashedPassword, name, company_name],
-        function(err) {
+        function (err) {
           if (err) return res.status(500).json({ error: err.message });
 
           const token = jwt.sign({ userId }, JWT_SECRET, { expiresIn: '7d' });
@@ -99,11 +99,55 @@ router.post('/login', [
 
 // Verify token and return user
 router.get('/verify', auth, (req, res) => {
-  db.get('SELECT id, email, name, company_name FROM users WHERE id = ?', [req.userId], (err, user) => {
+  const query = `
+    SELECT u.id, u.email, u.name, u.company_name, 
+           s.plan_type, s.status as subscription_status
+    FROM users u
+    LEFT JOIN subscriptions s ON u.id = s.user_id
+    WHERE u.id = ?
+    ORDER BY s.created_at DESC
+    LIMIT 1
+  `;
+
+  db.get(query, [req.userId], (err, user) => {
     if (err) return res.status(500).json({ error: err.message });
     if (!user) return res.status(404).json({ error: 'User not found' });
-    res.json({ user });
+
+    // Format response to include nested subscription object
+    const formattedUser = {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      company_name: user.company_name,
+      subscription: user.plan_type ? {
+        plan_type: user.plan_type,
+        status: user.subscription_status
+      } : null
+    };
+
+    res.json({ user: formattedUser });
   });
+});
+// Update User Profile
+router.put('/me', auth, [
+  body('name').notEmpty()
+], (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { name, company_name, date_format, time_format, currency } = req.body;
+
+  db.run(
+    'UPDATE users SET name = ?, company_name = ?, date_format = ?, time_format = ?, currency = ? WHERE id = ?',
+    [name, company_name, date_format, time_format, currency, req.userId],
+    function (err) {
+      if (err) return res.status(500).json({ error: err.message });
+      if (this.changes === 0) return res.status(404).json({ error: 'User not found' });
+      res.json({ message: 'Profile updated', user: { name, company_name, date_format, time_format, currency } });
+    }
+  );
 });
 
 module.exports = { router, auth };

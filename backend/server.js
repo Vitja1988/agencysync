@@ -22,6 +22,8 @@ app.use('/api/proposals', require('./routes/proposals'));
 app.use('/api/tasks', require('./routes/tasks'));
 app.use('/api/time', require('./routes/time'));
 app.use('/api/waitlist', require('./routes/waitlist'));
+app.use('/api/integrations', require('./routes/integrations'));
+app.use('/api/payments', require('./routes/payments'));
 
 // Health check
 app.get('/api/health', (req, res) => {

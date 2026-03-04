@@ -57,27 +57,27 @@ router.post('/', auth, [
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { description, client_id, task_id, hours, date } = req.body;
+  const { description, client_id, task_id, hours, date, start_time, end_time } = req.body;
   const id = uuidv4();
 
   db.run(
-    'INSERT INTO time_entries (id, user_id, client_id, task_id, description, hours, date) VALUES (?, ?, ?, ?, ?, ?, ?)',
-    [id, req.userId, client_id, task_id, description, hours, date],
-    function(err) {
+    'INSERT INTO time_entries (id, user_id, client_id, task_id, description, hours, date, start_time, end_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    [id, req.userId, client_id, task_id, description, hours, date, start_time, end_time],
+    function (err) {
       if (err) return res.status(500).json({ error: err.message });
-      res.status(201).json({ id, description, client_id, hours, date });
+      res.status(201).json({ id, description, client_id, hours, date, start_time, end_time });
     }
   );
 });
 
 // Update time entry
 router.put('/:id', auth, (req, res) => {
-  const { description, client_id, task_id, hours, date } = req.body;
+  const { description, client_id, task_id, hours, date, start_time, end_time } = req.body;
 
   db.run(
-    'UPDATE time_entries SET description = ?, client_id = ?, task_id = ?, hours = ?, date = ? WHERE id = ? AND user_id = ?',
-    [description, client_id, task_id, hours, date, req.params.id, req.userId],
-    function(err) {
+    'UPDATE time_entries SET description = ?, client_id = ?, task_id = ?, hours = ?, date = ?, start_time = ?, end_time = ? WHERE id = ? AND user_id = ?',
+    [description, client_id, task_id, hours, date, start_time, end_time, req.params.id, req.userId],
+    function (err) {
       if (err) return res.status(500).json({ error: err.message });
       if (this.changes === 0) return res.status(404).json({ error: 'Time entry not found' });
       res.json({ message: 'Time entry updated' });
@@ -90,7 +90,7 @@ router.delete('/:id', auth, (req, res) => {
   db.run(
     'DELETE FROM time_entries WHERE id = ? AND user_id = ?',
     [req.params.id, req.userId],
-    function(err) {
+    function (err) {
       if (err) return res.status(500).json({ error: err.message });
       if (this.changes === 0) return res.status(404).json({ error: 'Time entry not found' });
       res.json({ message: 'Time entry deleted' });
